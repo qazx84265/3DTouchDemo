@@ -32,10 +32,12 @@
 
 
 - (void)registerPreview {
-    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
-        [self registerForPreviewingWithDelegate:self sourceView:_tableView];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+        
+        if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+            [self registerForPreviewingWithDelegate:self sourceView:_tableView];
+        }
     }
-
 }
 
 

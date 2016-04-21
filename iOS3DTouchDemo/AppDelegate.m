@@ -25,16 +25,17 @@ const NSString* item3 = @"item3";
     // Override point for customization after application launch.
     
     /*-- home screnn shortcut items --*/
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-    if (application.shortcutItems.count == 0) {
-
-        UIApplicationShortcutItem *it1 = [[UIApplicationShortcutItem alloc] initWithType:@"item1" localizedTitle:@"Item1" localizedSubtitle:@"Item1 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePlay] userInfo:nil];
-        UIApplicationShortcutItem *it2 = [[UIApplicationShortcutItem alloc] initWithType:@"item2" localizedTitle:@"Item2" localizedSubtitle:@"Item2 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePause] userInfo:nil];
-        UIApplicationShortcutItem *it3 = [[UIApplicationShortcutItem alloc] initWithType:@"item3" localizedTitle:@"Item3" localizedSubtitle:@"Item3 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeSearch] userInfo:nil];
-        [[UIApplication sharedApplication] setShortcutItems:@[it1, it2, it3]];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+        
+        if (application.shortcutItems.count == 0) {
+            
+            UIApplicationShortcutItem *it1 = [[UIApplicationShortcutItem alloc] initWithType:@"item1" localizedTitle:@"Item1" localizedSubtitle:@"Item1 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePlay] userInfo:nil];
+            UIApplicationShortcutItem *it2 = [[UIApplicationShortcutItem alloc] initWithType:@"item2" localizedTitle:@"Item2" localizedSubtitle:@"Item2 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePause] userInfo:nil];
+            UIApplicationShortcutItem *it3 = [[UIApplicationShortcutItem alloc] initWithType:@"item3" localizedTitle:@"Item3" localizedSubtitle:@"Item3 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeSearch] userInfo:nil];
+            [[UIApplication sharedApplication] setShortcutItems:@[it1, it2, it3]];
+        }
         
     }
-#endif
     
     
     return YES;
