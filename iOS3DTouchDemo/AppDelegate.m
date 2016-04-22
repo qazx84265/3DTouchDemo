@@ -73,6 +73,7 @@ const NSString* item3 = @"item3";
     
     [nav pushViewController:svc animated:YES];
     
+    completionHandler(YES);
 }
 
 
