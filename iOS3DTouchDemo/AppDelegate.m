@@ -22,23 +22,56 @@ const NSString* item3 = @"item3";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSLog(@"didFinishLaunchingWithOptions");
     // Override point for customization after application launch.
+
+    BOOL lanuchResult = YES;
     
     /*-- home screen shortcut items --*/
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         
-        if (application.shortcutItems.count == 0) {
+//        NSArray *arr = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIApplicationShortcutItems"];
+//        if (!arr || arr.count == 0) {
+        if ([UIApplication sharedApplication].shortcutItems.count == 0) { //有bug，第一次安装运行时shortcutItems=0，即使info.plist已设置静态actions
             
             UIApplicationShortcutItem *it1 = [[UIApplicationShortcutItem alloc] initWithType:@"item1" localizedTitle:@"Item1" localizedSubtitle:@"Item1 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePlay] userInfo:nil];
             UIApplicationShortcutItem *it2 = [[UIApplicationShortcutItem alloc] initWithType:@"item2" localizedTitle:@"Item2" localizedSubtitle:@"Item2 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypePause] userInfo:nil];
             UIApplicationShortcutItem *it3 = [[UIApplicationShortcutItem alloc] initWithType:@"item3" localizedTitle:@"Item3" localizedSubtitle:@"Item3 desc" icon:[UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeSearch] userInfo:nil];
+            
             [[UIApplication sharedApplication] setShortcutItems:@[it1, it2, it3]];
         }
+//        else {
+//            NSMutableArray *marr = [NSMutableArray arrayWithArray:arr];
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                 @"item01", @"UIApplicationShortcutItemType",
+//                                 @"Item01", @"UIApplicationShortcutItemTitle",
+//                                 @"Item01 desc", @"UIApplicationShortcutItemSubtitle",
+//                                 @"UIApplicationShortcutIconTypePlay", @"UIApplicationShortcutItemIconType", nil];
+//            [marr replaceObjectAtIndex:0 withObject:dic];
+//            [[UIApplication sharedApplication] setShortcutItems:marr];
+//        }
         
     }
     
+    // determine whether we've launched from a shortcut item or not
+    if (launchOptions) {
+        UIApplicationShortcutItem *item = [launchOptions valueForKey:UIApplicationLaunchOptionsShortcutItemKey];
+        if (item) {
+            
+            lanuchResult = NO;
+            NSLog(@"We've launched from shortcut item: %@", item.localizedTitle);
+            
+            [self performActionWithShorcutItem:item];
+        } else {
+            NSLog(@"We've launched properly.");
+        }
+    }
     
-    return YES;
+    
+    
+    
+    
+    return lanuchResult;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -67,6 +100,8 @@ const NSString* item3 = @"item3";
 #pragma mark -- shortcut items callbacks
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
     
+    printf("performActionForShortcutItem");
+    
     UINavigationController *nav = (UINavigationController*)application.keyWindow.rootViewController;
     SubViewController *svc = [[SubViewController alloc] init];
     svc.navTitle = shortcutItem.type;
@@ -74,6 +109,11 @@ const NSString* item3 = @"item3";
     [nav pushViewController:svc animated:YES];
     
     completionHandler(YES);
+}
+
+
+- (void)performActionWithShorcutItem:(UIApplicationShortcutItem*)shortcutItem {
+    
 }
 
 
