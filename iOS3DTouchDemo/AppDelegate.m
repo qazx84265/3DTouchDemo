@@ -30,6 +30,14 @@ const NSString* item3 = @"item3";
     /*-- home screen shortcut items --*/
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         
+//        NSArray <UIApplicationShortcutItem *> *existingShortcutItems = [[UIApplication sharedApplication] shortcutItems];
+//        UIApplicationShortcutItem *anExistingShortcutItem = [existingShortcutItems objectAtIndex:anIndex];
+//        NSMutableArray <UIApplicationShortcutItem *> *updatedShortcutItems = [existingShortcutItems mutableCopy];
+//        UIMutableApplicationShortcutItem *aMutableShortcutItem = [anExistingShortcutItem mutableCopy];
+//        [aMutableShortcutItem setLocalizedTitle: @"New Title"];
+//        [updatedShortcutItems replaceObjectAtIndex: anIndex withObject: aMutableShortcutItem];
+//        [[UIApplication sharedApplication] setShortcutItems: updatedShortcutItems];
+        
 //        NSArray *arr = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIApplicationShortcutItems"];
 //        if (!arr || arr.count == 0) {
         if ([UIApplication sharedApplication].shortcutItems.count == 0) { //有bug，第一次安装运行时shortcutItems=0，即使info.plist已设置静态actions
@@ -102,18 +110,20 @@ const NSString* item3 = @"item3";
     
     printf("performActionForShortcutItem");
     
-    UINavigationController *nav = (UINavigationController*)application.keyWindow.rootViewController;
-    SubViewController *svc = [[SubViewController alloc] init];
-    svc.navTitle = shortcutItem.type;
+    [self performActionWithShorcutItem:shortcutItem];
     
-    [nav pushViewController:svc animated:YES];
-    
-    completionHandler(YES);
+    if (completionHandler) {
+        completionHandler(YES);
+    }
 }
 
 
 - (void)performActionWithShorcutItem:(UIApplicationShortcutItem*)shortcutItem {
+    UINavigationController *nav = (UINavigationController*)[UIApplication sharedApplication].keyWindow.rootViewController;
+    SubViewController *svc = [[SubViewController alloc] init];
+    svc.navTitle = shortcutItem.type;
     
+    [nav pushViewController:svc animated:YES];
 }
 
 

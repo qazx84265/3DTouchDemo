@@ -27,11 +27,14 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
+    
     NSMutableArray *arr = [NSMutableArray new];
+    
     for (int i=0; i<3; i++) {
+        
         UIPreviewAction *action = [UIPreviewAction actionWithTitle:[NSString stringWithFormat:@"Action_%d", i] style:i==2?UIPreviewActionStyleDestructive:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
             
-            NSLog(@"-------->>>>>> %@", action.title);
+            printf("-------->>>>>> %s", [action.title UTF8String]);
         }];
         
         [arr addObject:action];
