@@ -24,7 +24,7 @@ const NSString* item3 = @"item3";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    /*-- home screnn shortcut items --*/
+    /*-- home screen shortcut items --*/
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         
         if (application.shortcutItems.count == 0) {
@@ -73,6 +73,7 @@ const NSString* item3 = @"item3";
     
     [nav pushViewController:svc animated:YES];
     
+    completionHandler(YES);
 }
 
 
